@@ -212,6 +212,22 @@ def logout():
     session.clear()
     return redirect('/login')
 
+@app.route ('/usuarios')
+def usuarios():
+    return render_template('usuarios.html')
+
+@app.route('/insertar_usuario', methods=['POST'])
+def insertar_usuario():
+    user=request.form['txtuser']
+    clave=request.form['txtclave']
+    rol=request.form['txtrol']
+    cursor=conexion.cursor()
+    sql="INSERT INTO tbusuario (user,clave,rol) VALUES(%s,%s,%s)"
+    cursor.execute(sql,(user,clave,rol))
+    conexion.commit()
+    cursor.close()
+
+    return redirect('/logout')
 
 if __name__ == '__main__':
     app.run(debug=True)
